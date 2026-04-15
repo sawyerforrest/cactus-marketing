@@ -818,7 +818,7 @@
        CONTACT FORM
     ============================================================ */
     .contact-section {
-      background: var(--canvas);
+      background: var(--sand);
     }
 
     .contact-inner {
@@ -834,6 +834,13 @@
     .contact-left {
       position: sticky;
       top: 100px;
+    }
+
+    .contact-form-card {
+      background: var(--canvas);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
     }
 
     .contact-promise {
@@ -904,7 +911,7 @@
       font-size: 15px;
       font-weight: 400;
       color: var(--ink);
-      background: var(--canvas);
+      background: #ffffff;
       border: 0.5px solid var(--border);
       border-radius: 8px;
       outline: none;
@@ -1081,11 +1088,23 @@
       .for-who-grid,
       .steps-grid,
       .features-grid,
-      .contact-inner,
       .how-header,
       .features-header {
         grid-template-columns: 1fr;
         gap: 0;
+      }
+
+      .contact-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .contact-left {
+        position: static;
+      }
+
+      .contact-form-card {
+        padding: 24px 20px;
       }
 
       .for-who-card:first-child {
@@ -1419,6 +1438,7 @@
       </div>
 
       <div class="fade-up">
+        <div class="contact-form-card">
         <form class="contact-form" id="contactForm">
           <div class="form-row">
             <div class="form-group">
@@ -1477,6 +1497,7 @@
         <div class="form-success" id="formSuccess">
           ✓ &nbsp;<strong>Message received.</strong> Our founder will be in touch within 24 hours at the email you provided.
         </div>
+        </div><!-- end contact-form-card -->
       </div>
     </div>
   </section>

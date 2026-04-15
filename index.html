@@ -346,10 +346,46 @@
       margin-top: 1px;
     }
 
-    .rate-price {
-      font-size: 15px;
+    .rate-price-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+    }
+
+    .rate-price-before {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--hint);
+      text-decoration: line-through;
+      text-decoration-color: var(--hint);
+    }
+
+    .rate-price-before-label {
+      font-size: 9px;
       font-weight: 500;
-      color: var(--ink);
+      color: var(--hint);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .rate-price-cactus {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--forest);
+    }
+
+    .rate-price-cactus-label {
+      font-size: 9px;
+      font-weight: 500;
+      color: var(--forest);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .rate-price-winner {
+      color: var(--forest);
     }
 
     .rate-best {
@@ -1205,8 +1241,8 @@
         </p>
         <div class="hero-actions">
           <a href="#contact" class="btn-primary">
-            Request early access
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Compare rates
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAASCAYAAABIB77kAAADW0lEQVR4nK1UTWhdVRCec+57Lz7Th9qoUBeKIq4asA1diBs3sfiDoIJId6LgWhDUhYTYbiyudGNdFNRuFcEf2iJuLAouxEotrVGTCNqGq8lrcm9y5szM+VzkXLlJ05pKBw73Mue7881883EdXYcA4J1ziYhocXFxfDAYPOu9NyJKqjpjZvf0+/1D14OLALhMdBeLvAvgnKpWqjonIn8BgJl9lrGdbRcF0MmnAOABuKmpKQ/AMfPuGONHarqiqhdjjF+o6hwABRABRBF57L9IfC5eXAVTABgJIbxkZgsiejbGeNLMIgCo6iUzSwCSmv0IoHfZiAA8EaHZCRHRwsLCjrGxsceJaBeAGRE53e/3LzjntK7rXd1udwLAWedorNPpThJRWi+FM0QUieihwvtxVT3YTOLy8Q0JM48DmGTmZ9R0BhvCVs3sZzP7RlXPNxO1AQA0xjgBwIcQnjKzEgAuk4mZ96jp51mS060iks+VIgEwVb2UjfJeIzsRUYxxQkQmqaqqh+u6fjqE8IqqHs9Lhpn9sLq6+gAANjPNOVbVMr9bNoVlspTzf4rIuRjjvqzaBh90iqKY8d6/WRTFI0VR7EgpJUtW+oTDZvYbEfW894mIjIi6AH5NKd3ovR8hIk9Erq2Q9/5mM7vonLutuXPOWV7XOnZ+fv4OEXlDRN6q6/rFqqr2NwWi6utt3VT1lKoON+WGjdxmymvMnwLotky4wZUbOmznGzAzHzCzCwDAzF9XVfWcqn5iZn8DgIj8lOUchhC+E5FfzOzDEMJ9W3K0tO5g3bVNV67RP4TwPgCEEF5uvlteXr6VmXdXVbVXVb8FgLW1tWkY3jazL1X1j5WVlduvNtjmRjpERCJyWER+N7O6LMtBvhtpY8uyHKjqSTP9/t91xHgcwE15oG0RegAuhPAEM59Q1VJEpgHszPdFQ0ZEND8c3qKqysx7mfkFEZluN060yWFXIHXOOSwtLd09Ojp6lIjmvPf3ppSO9Xq9I8x8f1EU7xDRIhEVKaUTAE557z9IKR3o9XpniMi1/1zbmbSTn/tijF8x87iInI8xPgigB+BOEdnf7IuFD8UYX22rcM3RkMYYX4six0IIT4rIo1vhZmdnb2jU+V9kW5B+zMzP51zRcrlrYbck+wcSv6aC5sJF5wAAAABJRU5ErkJggg==" alt="" style="height:16px;width:auto;display:block;opacity:0.92;"/>
           </a>
           <a href="#how-it-works" class="btn-secondary">See how it works →</a>
         </div>
@@ -1218,45 +1254,63 @@
           <div class="hero-card hero-card-main">
             <div class="card-label">Live Rate Shop · 3 carriers · 0.4s</div>
 
+            <!-- UPS Ground -->
             <div class="card-rate-row">
               <div class="rate-carrier">
-                <div class="rate-dot"></div>
+                <div class="rate-dot muted"></div>
                 <div>
                   <div class="rate-name">UPS Ground</div>
                   <div class="rate-service">3–5 business days</div>
                 </div>
               </div>
-              <div style="display:flex;align-items:center;gap:10px">
-                <div class="rate-price">$8.47</div>
-                <div class="rate-best">Best</div>
+              <div class="rate-price-group">
+                <div class="rate-price-before-label">Before</div>
+                <div class="rate-price-before">$9.96</div>
+                <div class="rate-price-cactus-label">Cactus</div>
+                <div class="rate-price-cactus">$8.47</div>
               </div>
             </div>
 
+            <!-- FedEx Home -->
             <div class="card-rate-row">
               <div class="rate-carrier">
-                <div class="rate-dot amber"></div>
+                <div class="rate-dot muted"></div>
                 <div>
                   <div class="rate-name">FedEx Home</div>
                   <div class="rate-service">3–5 business days</div>
                 </div>
               </div>
-              <div class="rate-price">$9.14</div>
+              <div class="rate-price-group">
+                <div class="rate-price-before-label">Before</div>
+                <div class="rate-price-before">$10.75</div>
+                <div class="rate-price-cactus-label">Cactus</div>
+                <div class="rate-price-cactus">$9.14</div>
+              </div>
             </div>
 
-            <div class="card-rate-row">
+            <!-- DHL eCommerce — Winner -->
+            <div class="card-rate-row" style="background:rgba(45,90,39,0.04);margin:0 -28px;padding:10px 28px;border-radius:0 0 12px 12px;">
               <div class="rate-carrier">
-                <div class="rate-dot muted"></div>
+                <div class="rate-dot" style="background:var(--forest);"></div>
                 <div>
-                  <div class="rate-name">DHL eCommerce</div>
-                  <div class="rate-service">3–6 business days</div>
+                  <div class="rate-name" style="color:var(--forest);font-weight:600;">DHL Expedited</div>
+                  <div class="rate-service">3–5 business days</div>
                 </div>
               </div>
-              <div class="rate-price">$6.22</div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="rate-price-group">
+                  <div class="rate-price-before-label">Before</div>
+                  <div class="rate-price-before">$7.32</div>
+                  <div class="rate-price-cactus-label">Cactus</div>
+                  <div class="rate-price-cactus">$6.22</div>
+                </div>
+                <div class="rate-best">Best</div>
+              </div>
             </div>
 
             <div class="card-footer">
-              <div class="card-footer-label">Savings vs. current carrier</div>
-              <div class="card-footer-value">−$1.92 on this shipment</div>
+              <div class="card-footer-label">Avg. savings across all carriers</div>
+              <div class="card-footer-value">−15% with Cactus</div>
             </div>
           </div>
         </div>
@@ -1326,13 +1380,13 @@
         <div class="for-who-card">
           <div class="for-who-tag green">For 3PLs</div>
           <h3 class="for-who-title">Run your shipping operation like a software company.</h3>
-          <p class="for-who-body">Cactus connects to your WMS, shops rates across every carrier at once, and handles billing automatically — so you can focus on your clients, not spreadsheets.</p>
+          <p class="for-who-body">Cactus connects to your WMS, shops rates across every carrier at once, and with the power of AI, intelligently reconciles and builds client invoices ready for your final review before sending — so you can focus on your clients, not spreadsheets.</p>
           <ul class="for-who-list">
             <li>Multi-carrier rate shopping in under 500ms</li>
             <li>Automated weekly invoicing per billing period</li>
             <li>Real-time tracking for all your client accounts</li>
             <li>Carrier invoice reconciliation with dispute flagging</li>
-            <li>Cactus Portal — branded dashboard for your clients</li>
+            <li>Cactus Portal — shipments, claims, meters, invoices, and more</li>
           </ul>
         </div>
 
@@ -1341,12 +1395,15 @@
           <h3 class="for-who-title">Ship smarter without switching anything.</h3>
           <p class="for-who-body">Use your existing platform. Cactus works in the background — finding the best rate on every order, tracking every package, and giving you full visibility into what you're actually spending.</p>
           <ul class="for-who-list">
-            <li>Works with ShipStation, your WMS, or custom platforms</li>
+            <li>Works with ShipStation*, your WMS, or custom platforms</li>
             <li>See carrier charges, billed amounts, and savings side by side</li>
             <li>Proactive alerts for stuck, delayed, or returned packages</li>
             <li>One clean invoice per billing period — no surprises</li>
             <li>AI-powered insights on your shipping cost trends</li>
           </ul>
+          <p style="font-size:11px;color:var(--hint);margin-top:14px;line-height:1.5;">
+            *Cactus rates are compatible with ShipStation, not tracking features.
+          </p>
         </div>
       </div>
     </div>
@@ -1370,18 +1427,18 @@
       <div class="steps-grid fade-up">
         <div class="step">
           <div class="step-number">01</div>
-          <div class="step-title">Connect your carriers</div>
-          <p class="step-body">Cactus connects to UPS, FedEx, and regional carriers on your behalf. No credential sharing, no per-org setup. We handle the API relationships.</p>
+          <div class="step-title">Connect Easily</div>
+          <p class="step-body">Tell us which carriers you want to use, and Cactus takes care of the rest — APIs, credentials, and carrier communications.</p>
         </div>
         <div class="step">
           <div class="step-number">02</div>
-          <div class="step-title">Ship as you normally would</div>
+          <div class="step-title">Ship Profitably</div>
           <p class="step-body">Your WMS or shipping platform calls Cactus for rates. We return the best options instantly and log everything to the Shadow Ledger.</p>
         </div>
         <div class="step">
           <div class="step-number">03</div>
-          <div class="step-title">Cactus handles the rest</div>
-          <p class="step-body">Carrier invoices arrive, Cactus reconciles every charge, flags disputes, and generates a clean weekly invoice for each client — automatically.</p>
+          <div class="step-title">Invoice with Confidence</div>
+          <p class="step-body">Carrier invoices arrive, Cactus reconciles every charge, flags disputes, and generates a clean weekly invoice for each client — powered by AI.</p>
         </div>
       </div>
     </div></div>
@@ -1411,7 +1468,7 @@
         <div class="feature">
           <div class="feature-icon">🧾</div>
           <div class="feature-title">Automated billing</div>
-          <p class="feature-body">Carrier invoices parsed by AI, reconciled against shipment data, and turned into clean client invoices — Net-7, every week.</p>
+          <p class="feature-body">Carrier invoices parsed by AI, reconciled against shipment data, and turned into clean client invoices — every week.</p>
         </div>
         <div class="feature">
           <div class="feature-icon">📦</div>
@@ -1431,7 +1488,7 @@
         <div class="feature">
           <div class="feature-icon">🌵</div>
           <div class="feature-title">Cactus Portal</div>
-          <p class="feature-body">A clean, branded dashboard for your clients. Shipment history, tracking, meter balance, and invoices — all in one place. No support tickets.</p>
+          <p class="feature-body">Dashboards for you and your clients. Shipment history, tracking, meters, claims, and invoices — all in one place. And more to come →</p>
         </div>
       </div>
     </div>

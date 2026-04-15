@@ -47,15 +47,13 @@
     }
 
     body {
-  background: var(--canvas);
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.6;
-  overflow-x: hidden;
-  max-width: 1440px;
-  margin: 0 auto;
-}
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
     /* ============================================================
        NAVIGATION
@@ -82,6 +80,7 @@
       align-items: center;
       gap: 10px;
       text-decoration: none;
+      margin-bottom: -4px;
     }
 
 
@@ -123,9 +122,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(217, 119, 6, 0.07) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 80% at 20% 80%, rgba(45, 90, 39, 0.06) 0%, transparent 70%);
+      background: radial-gradient(ellipse 60% 40% at 70% 30%, rgba(217, 119, 6, 0.05) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -137,6 +134,15 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
       pointer-events: none;
       opacity: 0.4;
+    }
+
+    .hero-dunes {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
     }
 
     .hero-content {
@@ -250,7 +256,7 @@
       border: 0.5px solid var(--border);
       border-radius: 16px;
       padding: 24px 28px;
-      box-shadow: 0 4px 24px rgba(13, 18, 16, 0.06), 0 1px 4px rgba(13, 18, 16, 0.04);
+      box-shadow: 0 2px 16px rgba(13, 18, 16, 0.08), 0 0 0 0.5px rgba(13,18,16,0.04);
     }
 
     .hero-card-main {
@@ -1006,7 +1012,7 @@
   ============================================================ -->
   <nav>
     <a href="#" class="nav-logo">
-      <svg height="36" viewBox="0 0 923.18 475.16" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+      <svg height="46" viewBox="0 0 923.18 475.16" xmlns="http://www.w3.org/2000/svg" style="display:block;">
         <defs><style>.st0{fill:#d97706}.st1{fill:#dbdcd7}.st2{fill:#1a4d2e}</style></defs>
         <path class="st2" d="M640.38,166.19v48.75c-.27,4.89-1.87,21.76-16.45,36.47-14.52,14.65-35.7,19.75-57.12,21.22v126.18h-71.16v-126.18c-21.42-1.47-42.6-6.57-57.12-21.22-14.59-14.71-16.19-31.58-16.45-36.47v-48.75c0-13.26,11.08-24.68,25.47-25.27,15.28-.62,27.89,10.59,27.89,24.5v32.17c0,13.19-.39,29.87,18.73,31.29.5,0,.98-.02,1.48-.02v-121.88c0-17.77,15.03-32.94,34.35-33.53,20.21-.62,36.8,14.24,36.8,32.66v122.75c.5,0,1,.02,1.48.02,19.12-1.42,18.73-18.1,18.73-31.29v-32.17c0-13.91,12.61-25.13,27.89-24.5,14.39.59,25.47,12.01,25.47,25.27Z"/>
         <path class="st1" d="M497.87,247.23l-.37,4.89c-9.29-.6-26.68-3.25-38.99-14.24-1.87-1.67-5.34-4.77-8.11-9.86-3.56-6.54-3.81-12.6-4.13-20.99-.12-3.11-.04-5.02.11-7.91.09-2.3.23-5.17.32-9.82.07-3.91.12-7.36.14-10.22l-12.22-.08,15.07-23.62,14.75,23.8-12.26-.08c-.02,2.88-.07,6.36-.14,10.3-.11,4.71-.23,7.6-.34,9.94-.12,2.86-.2,4.61-.09,7.52.36,9.04.64,13.63,3.56,18.96,2.37,4.35,5.43,7.08,7.06,8.53,11.08,9.91,27.09,12.33,35.65,12.88Z"/>
@@ -1027,12 +1033,32 @@
        HERO
   ============================================================ -->
   <section class="hero">
+
+    <!-- Desert dune background -->
+    <svg class="hero-dunes" viewBox="0 0 1400 700" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="amberGlow" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#D97706" stop-opacity="0"/>
+          <stop offset="50%" stop-color="#D97706" stop-opacity="0.08"/>
+          <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <!-- Amber glow wash across upper hero -->
+      <rect width="1400" height="700" fill="url(#amberGlow)"/>
+      <!-- Dune layers — amber/warm tones, very subtle -->
+      <path d="M0 700 L0 480 Q200 440 400 458 Q600 476 800 448 Q1000 420 1200 442 Q1300 452 1400 438 L1400 700 Z" fill="#C8680A" opacity="0.06"/>
+      <path d="M0 700 L0 520 Q250 494 500 508 Q750 522 1000 500 Q1200 482 1400 494 L1400 700 Z" fill="#B85E08" opacity="0.07"/>
+      <path d="M0 700 L0 558 Q300 542 600 552 Q900 562 1200 546 Q1300 540 1400 548 L1400 700 Z" fill="#A05206" opacity="0.08"/>
+      <path d="M0 700 L0 598 Q350 588 700 594 Q1050 600 1400 590 L1400 700 Z" fill="#8B4505" opacity="0.09"/>
+      <path d="M0 700 L0 636 Q350 628 700 633 Q1050 638 1400 630 L1400 700 Z" fill="#763A04" opacity="0.10"/>
+      <!-- Ridge highlight lines -->
+      <path d="M0 480 Q200 440 400 458 Q600 476 800 448 Q1000 420 1200 442 Q1300 452 1400 438" fill="none" stroke="#D97706" stroke-width="0.6" opacity="0.12"/>
+      <path d="M0 520 Q250 494 500 508 Q750 522 1000 500 Q1200 482 1400 494" fill="none" stroke="#D97706" stroke-width="0.5" opacity="0.10"/>
+      <path d="M0 558 Q300 542 600 552 Q900 562 1200 546 Q1300 540 1400 548" fill="none" stroke="#D97706" stroke-width="0.4" opacity="0.08"/>
+    </svg>
+
     <div class="hero-content">
       <div class="hero-eyebrow">AI-Native Logistics OS</div>
-      <h1 class="hero-headline">
-        Logistics<br/>
-        with <em>soul.</em>
-      </h1>
       <p class="hero-sub">
         Smarter rate shopping, automated billing, and real-time shipment visibility — built for 3PLs and e-commerce brands who ship at scale.
       </p>
@@ -1080,8 +1106,8 @@
             <div class="rate-carrier">
               <div class="rate-dot muted"></div>
               <div>
-                <div class="rate-name">UniUni Regional</div>
-                <div class="rate-service">2–4 business days</div>
+                <div class="rate-name">DHL eCommerce</div>
+                <div class="rate-service">3–6 business days</div>
               </div>
             </div>
             <div class="rate-price">$6.22</div>
@@ -1337,7 +1363,7 @@
         </form>
 
         <div class="form-success" id="formSuccess">
-          ✓ &nbsp;<strong>Message received.</strong> Our founder will be in touch within 24 hours at the email you provided. In the meantime, feel free to reach out directly using our form.
+          ✓ &nbsp;<strong>Message received.</strong> Our founder will be in touch within 24 hours at the email you provided. In the meantime, feel free to reach out directly at <strong>sawyer@cactus-logistics.com</strong>.
         </div>
       </div>
     </div>
@@ -1364,6 +1390,7 @@
     </a>
 
     <div class="footer-right">
+      <a href="mailto:sawyer@cactus-logistics.com" class="footer-link">sawyer@cactus-logistics.com</a>
       <a href="#contact" class="footer-link">Contact</a>
       <span class="footer-copy">© 2026 Cactus Logistics LLC</span>
     </div>

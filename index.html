@@ -68,8 +68,8 @@
       right: 0;
       z-index: 100;
       height: 64px;
-      background: rgba(250, 248, 244, 0.92);
-      backdrop-filter: blur(12px);
+      background: #ffffff;
+      backdrop-filter: none;
       border-bottom: 0.5px solid var(--border);
       transition: all 0.3s ease;
     }
@@ -1244,7 +1244,7 @@
             Compare rates
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAASCAYAAABIB77kAAADW0lEQVR4nK1UTWhdVRCec+57Lz7Th9qoUBeKIq4asA1diBs3sfiDoIJId6LgWhDUhYTYbiyudGNdFNRuFcEf2iJuLAouxEotrVGTCNqGq8lrcm9y5szM+VzkXLlJ05pKBw73Mue7881883EdXYcA4J1ziYhocXFxfDAYPOu9NyJKqjpjZvf0+/1D14OLALhMdBeLvAvgnKpWqjonIn8BgJl9lrGdbRcF0MmnAOABuKmpKQ/AMfPuGONHarqiqhdjjF+o6hwABRABRBF57L9IfC5eXAVTABgJIbxkZgsiejbGeNLMIgCo6iUzSwCSmv0IoHfZiAA8EaHZCRHRwsLCjrGxsceJaBeAGRE53e/3LzjntK7rXd1udwLAWedorNPpThJRWi+FM0QUieihwvtxVT3YTOLy8Q0JM48DmGTmZ9R0BhvCVs3sZzP7RlXPNxO1AQA0xjgBwIcQnjKzEgAuk4mZ96jp51mS060iks+VIgEwVb2UjfJeIzsRUYxxQkQmqaqqh+u6fjqE8IqqHs9Lhpn9sLq6+gAANjPNOVbVMr9bNoVlspTzf4rIuRjjvqzaBh90iqKY8d6/WRTFI0VR7EgpJUtW+oTDZvYbEfW894mIjIi6AH5NKd3ovR8hIk9Erq2Q9/5mM7vonLutuXPOWV7XOnZ+fv4OEXlDRN6q6/rFqqr2NwWi6utt3VT1lKoON+WGjdxmymvMnwLotky4wZUbOmznGzAzHzCzCwDAzF9XVfWcqn5iZn8DgIj8lOUchhC+E5FfzOzDEMJ9W3K0tO5g3bVNV67RP4TwPgCEEF5uvlteXr6VmXdXVbVXVb8FgLW1tWkY3jazL1X1j5WVlduvNtjmRjpERCJyWER+N7O6LMtBvhtpY8uyHKjqSTP9/t91xHgcwE15oG0RegAuhPAEM59Q1VJEpgHszPdFQ0ZEND8c3qKqysx7mfkFEZluN060yWFXIHXOOSwtLd09Ojp6lIjmvPf3ppSO9Xq9I8x8f1EU7xDRIhEVKaUTAE557z9IKR3o9XpniMi1/1zbmbSTn/tijF8x87iInI8xPgigB+BOEdnf7IuFD8UYX22rcM3RkMYYX4six0IIT4rIo1vhZmdnb2jU+V9kW5B+zMzP51zRcrlrYbck+wcSv6aC5sJF5wAAAABJRU5ErkJggg==" alt="" style="height:16px;width:auto;display:block;opacity:0.92;"/>
           </a>
-          <a href="#how-it-works" class="btn-secondary">See how it works →</a>
+          <a href="#how-it-works" class="btn-secondary" style="display:none;">See how it works →</a>
         </div>
       </div>
 
@@ -1372,7 +1372,7 @@
        FOR WHO
   ============================================================ -->
   <section class="for-who fade-up">
-    <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-inner" style="max-width:var(--content-width)">
       <div class="section-eyebrow">Built for both sides</div>
       <h2 class="section-heading">Whether you run the<br/><em>warehouse or the brand.</em></h2>
 
@@ -1428,7 +1428,7 @@
         <div class="step">
           <div class="step-number">01</div>
           <div class="step-title">Connect Easily</div>
-          <p class="step-body">Tell us which carriers you want to use, and Cactus takes care of the rest — APIs, credentials, and carrier communications.</p>
+          <p class="step-body">Cactus enables lassoed (integrated) and dark (shared credentials) carrier rate access depending on your WMS/TMS/OMS. 1–2 week onboarding process.</p>
         </div>
         <div class="step">
           <div class="step-number">02</div>

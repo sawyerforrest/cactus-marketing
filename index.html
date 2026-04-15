@@ -1035,18 +1035,63 @@
        FOOTER
     ============================================================ */
     footer {
-      padding: 40px 0;
-      border-top: 0.5px solid var(--border);
+      padding: 0;
+      border-top: none;
       background: var(--sand);
     }
 
     .footer-inner {
       max-width: var(--content-width);
       margin: 0 auto;
-      padding: 0 48px;
+      padding: 32px 48px 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+
+    .footer-values {
+      background: var(--forest-deep);
+      max-width: 100%;
+      margin: 0;
+      padding: 22px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+      row-gap: 12px;
+    }
+
+    .footer-value-item {
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+    }
+
+    .footer-value-word {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 500;
+      font-style: italic;
+      color: #F5C842;
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+
+    .footer-value-for {
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+
+    .footer-value-arrow {
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+      padding: 0 18px;
+      flex-shrink: 0;
+      line-height: 1;
     }
 
     .footer-logo {
@@ -1165,6 +1210,8 @@
 
       .footer-inner { flex-direction: column; gap: 20px; text-align: center; padding: 24px; }
       .footer-right { flex-wrap: wrap; justify-content: center; gap: 16px; }
+      .footer-values { padding: 20px 24px; row-gap: 10px; }
+      .footer-value-arrow { padding: 0 10px; }
     }
   </style>
 </head>
@@ -1591,7 +1638,31 @@
        FOOTER
   ============================================================ -->
   <footer>
-    <div class="footer-inner">
+    <!-- Core values strip -->
+    <div class="footer-values">
+      <div class="footer-value-item">
+        <span class="footer-value-word">Gratitude</span>
+        <span class="footer-value-for">for people</span>
+      </div>
+      <span class="footer-value-arrow">→</span>
+      <div class="footer-value-item">
+        <span class="footer-value-word">Curiosity</span>
+        <span class="footer-value-for">for innovation</span>
+      </div>
+      <span class="footer-value-arrow">→</span>
+      <div class="footer-value-item">
+        <span class="footer-value-word">Faith</span>
+        <span class="footer-value-for">for purpose</span>
+      </div>
+      <span class="footer-value-arrow">→</span>
+      <div class="footer-value-item">
+        <span class="footer-value-word">Creation</span>
+        <span class="footer-value-for">for joy</span>
+      </div>
+    </div>
+
+    <!-- Logo + links row -->
+    <div class="footer-inner" style="padding-top:32px;padding-bottom:32px;">
     <a href="#" class="footer-logo">
       <svg height="44" viewBox="0 0 923.18 475.16" xmlns="http://www.w3.org/2000/svg" style="display:block;">
         <defs><style>.st0f{fill:#d97706}.st1f{fill:#dbdcd7}.st2f{fill:#1a4d2e}</style></defs>

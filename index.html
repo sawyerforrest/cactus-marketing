@@ -1994,15 +1994,17 @@
     @keyframes rpRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
     @keyframes rpDraw { to { stroke-dashoffset: 0; } }
     @keyframes rpFade { to { opacity: 1; } }
-    .hero-card .rp-was      { animation: rpRise 0.6s var(--ease) 0.30s both; }
-    .hero-card .rp-now-wrap { animation: rpRise 0.7s var(--ease) 0.45s both; }
-    .hero-card .rp-sub      { animation: rpRise 0.6s var(--ease) 0.75s both; }
-    .hero-card .rp-eyebrow  { animation: rpRise 0.6s var(--ease) 0.15s both; }
-    .hero-card .slot        { animation: rpRise 0.6s var(--ease) 0.28s both; }
-    .hero-card .rp-rung:nth-child(1) { animation: rpRise 0.55s var(--ease) 1.65s both; }
-    .hero-card .rp-rung:nth-child(2) { animation: rpRise 0.55s var(--ease) 1.78s both; }
-    .hero-card .rp-rung:nth-child(3) { animation: rpRise 0.55s var(--ease) 1.91s both; }
-    .hero-card .card-footer { animation: rpRise 0.6s var(--ease) 0.62s both; }
+    /* The card is the parcel request form. Eyebrow, heading and lede
+       arrive in order, then the fields as one block -- staggering the
+       inputs would slide them under a cursor already reaching for the
+       first one. */
+    .hero-card .rp-eyebrow { animation: rpRise 0.6s var(--ease) 0.15s both; }
+    .hero-card .qf-title   { animation: rpRise 0.6s var(--ease) 0.28s both; }
+    .hero-card .qf-sub     { animation: rpRise 0.6s var(--ease) 0.40s both; }
+    .hero-card .qf-grid    { animation: rpRise 0.7s var(--ease) 0.52s both; }
+    /* the eyebrow sits above a heading now rather than a 40px figure,
+       so it needs less air under it */
+    .hero-card > .rp-eyebrow { margin-bottom: 15px; }
 
 
 
@@ -2043,179 +2045,6 @@
     .rp-rw { text-transform: none; letter-spacing: 0.01em; font-size: 13.5px;
              color: rgba(255,255,255,0.62); }
 
-    /* ============================================================
-       HERO — the rate reel
-       Four Cactus services roll for one parcel weight; the cheapest
-       lights up, then the weight advances. Each reel is a strip of
-       cells moved by a single transform, so the motion is one
-       GPU-composited slide rather than text being swapped per frame.
-       ============================================================ */
-    .slot { margin-top: 2px; }
-    .slot-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 14px; }
-    .slot-dots { padding-bottom: 0.22em; }
-    .slot-measure {
-      display: flex; align-items: flex-end; min-width: 0;
-      --wfs: clamp(40px, 4vw, 54px);          /* the weight's font size, shared */
-    }
-    /* The zone is static, so it cannot live in .slot-weight's clipped,
-       rolling window. To sit on the digits' baseline it mirrors a cell's
-       box model exactly -- 1.12em tall at --wfs, line-height 1.12, label
-       inset at 0.4em -- so two identical boxes aligned flush-bottom share
-       a baseline by construction, at any clamped size. Nudging it with a
-       tuned offset does NOT work: the rounding of the em-based window
-       varies with the font size. */
-    .slot-zone {
-      font-family: var(--font-body);
-      font-size: var(--wfs);
-      line-height: 1.12;
-      height: 1.12em;
-      white-space: nowrap;
-      /* The window is as wide as the WIDEST cell in the strip, decoys
-         included, so a narrow value like "8 oz" leaves dead space to its
-         right. JS reports that leftover as --zone-shift and the zone
-         slides over it, keeping the gap after the unit constant at every
-         weight. Default 0 is correct for the single-cell first paint. */
-      transform: translateX(calc(-1 * var(--zone-shift, 0px)));
-      transition: transform 1000ms var(--ease);
-    }
-    .zone-arrow {
-      width: calc(var(--wfs) * 0.42);
-      height: calc(var(--wfs) * 0.175);
-      margin-left: calc(var(--wfs) * 0.175);
-      margin-right: calc(var(--wfs) * 0.145);
-      vertical-align: calc(var(--wfs) * 0.045);
-      overflow: visible;
-    }
-    .za-line, .za-head {
-      stroke: rgba(255,255,255,0.34);
-      stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
-    }
-    /* pathLength normalises the dash maths regardless of the drawn length */
-    .za-line { stroke-dasharray: 100; stroke-dashoffset: 0; }
-    .slot-zone i {
-      font-style: normal;
-      font-size: 0.4em;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.42);
-      vertical-align: baseline;
-    }
-
-    .slot-weight {
-      font-family: var(--font-body);
-      font-size: var(--wfs); font-weight: 600;
-      letter-spacing: -0.04em; color: #fff;
-      font-variant-numeric: tabular-nums;
-      /* em-based so the window tracks the clamped font size */
-      height: 2.352em; margin-top: -0.616em; margin-bottom: -0.616em;
-      overflow: hidden;
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
-              mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
-    }
-    .sw-strip {
-      display: block; will-change: transform;
-      /* rest position lives here, not in JS: the strip must already be
-         centred in the masked window on the very first paint, before
-         any script has run */
-      transform: translateY(0.616em);          /* (2.352em - 1.12em) / 2 */
-    }
-    .sw-cell  { display: block; width: max-content; height: 1.12em; line-height: 1.12; white-space: nowrap; }
-    .slot-weight i {
-      font-style: normal; font-size: 0.4em; font-weight: 500;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: rgba(255,255,255,0.42);
-      margin-left: 7px; vertical-align: baseline;
-    }
-    .slot-dots { display: flex; gap: 6px; }
-    .slot-dots i {
-      width: 5px; height: 5px; border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      transition: background 0.4s var(--ease), transform 0.4s var(--ease);
-    }
-    .slot-dots i.on { background: var(--amber-light); transform: scale(1.3); }
-
-    .slot-row {
-      position: relative;
-      display: grid; grid-template-columns: 1fr auto auto;
-      align-items: center; gap: 14px;
-      padding: 7px 12px; margin: 0 -12px;
-      border-radius: 10px;
-      border-bottom: 0.5px solid rgba(255,255,255,0.055);
-      transition: background 0.45s var(--ease);
-    }
-    .slot-row:last-child { border-bottom: none; }
-    .slot-row.won { background: rgba(245,158,11,0.07); }
-    .slot-row::before {
-      content: ""; position: absolute; left: 0; top: 9px; bottom: 9px;
-      width: 2px; border-radius: 2px; background: var(--amber-light);
-      opacity: 0; transition: opacity 0.4s var(--ease);
-    }
-    .slot-row.won::before { opacity: 1; }
-
-    .slot-svc { font-size: 13.5px; color: rgba(255,255,255,0.5);
-                transition: color 0.4s var(--ease); }
-    .slot-row.won .slot-svc { color: #fff; }
-
-    .slot-chip {
-      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--amber-light); background: rgba(245,158,11,0.14);
-      border: 0.5px solid rgba(245,158,11,0.32); border-radius: 999px;
-      padding: 3px 8px;
-      opacity: 0; transition: opacity 0.4s var(--ease);
-    }
-    .slot-row.won .slot-chip { opacity: 1; }
-
-    /* the window. One cell tall, so only the landed figure shows. */
-    /* The window is 2.1 cells tall so a figure has somewhere to
-       dissolve on the way in and out, then negative margins pull it
-       back to one cell of layout height. The mask is opaque only
-       across the middle cell, so the settled figure is untouched
-       while anything travelling past melts at the edges instead of
-       being sliced by the overflow box. */
-    .slot-rate {
-      display: block; height: 84px;
-      margin-top: -22px; margin-bottom: -22px;
-      overflow: hidden; min-width: 118px; text-align: right;
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
-              mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
-    }
-    .reel-strip {
-      display: block; will-change: transform;
-      transform: translateY(22px);             /* (84px - 40px) / 2 */
-    }
-
-    /* Out of focus while travelling, resolving as it slows. The
-       transition lives on the resting state and is suppressed in the
-       rolling state, so the blur snaps on at take-off and only eases
-       off on landing - the reverse would have it drift INTO blur. */
-    .reel-strip, .sw-strip {
-      filter: blur(0); opacity: 1;
-      transition: filter 620ms cubic-bezier(0.33, 1, 0.68, 1),
-                  opacity 620ms cubic-bezier(0.33, 1, 0.68, 1);
-    }
-    .slot-row.rolling .reel-strip {
-      filter: blur(1.1px); opacity: 0.62; transition: none;
-    }
-    .slot-weight.rolling .sw-strip {
-      filter: blur(1.3px); opacity: 0.66; transition: none;
-    }
-    .reel-cell {
-      display: block; height: 40px; line-height: 40px;
-      font-variant-numeric: tabular-nums;
-      font-size: 27px; font-weight: 500; letter-spacing: -0.015em;
-      color: rgba(255,255,255,0.46);
-      transition: color 0.45s var(--ease);
-    }
-    /* a full-size currency mark makes the number look heavy */
-    .reel-cell i { font-style: normal; font-size: 0.6em; opacity: 0.55;
-                   vertical-align: 0.16em; margin-right: 2px; }
-    .slot-row.won .reel-cell { color: var(--amber-light); }
-    /* a service that does not cover this weight recedes rather than
-       disappearing, so the reel keeps its shape between rounds */
-    .slot-row.na .slot-svc  { color: rgba(255,255,255,0.26); }
-    .slot-row.na .reel-cell { color: rgba(255,255,255,0.22); font-size: 24px; }
-    .slot-row.won .reel-cell i { opacity: 0.75; }
 
     /* --- lift the panel off the hero ----------------------------- */
     /* a flat fill reads as a grey box; a raking gradient gives the
@@ -2230,121 +2059,25 @@
     }
     .hero-card { position: relative; z-index: 1; }
 
-    /* ---- transition pulse -------------------------------------------
-       Fires on the stack, not the card: .hero-card already owns
-       transform for its hover lift, and stealing that would make a
-       pulse mid-hover drop the card. Scaling the parent leaves the
-       hover rule composing on top of it untouched.
-       Fast attack, slow release, with a hair of counter-settle, so it
-       reads as a heartbeat rather than a bounce.                     */
-    @keyframes cardPulse {
-      0%   { transform: scale(1); }
-      16%  { transform: scale(1.021); }
-      46%  { transform: scale(0.998); }
-      100% { transform: scale(1); }
-    }
-    /* every keyframe carries the same five shadow layers so the list
-       interpolates instead of snapping; the two amber ones simply sit
-       at zero alpha at rest */
-    @keyframes cardRing {
-      0%, 100% {
-        border-color: rgba(255,255,255,0.14);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.18), 0 26px 70px rgba(0,0,0,0.38),
-                    0 0 0 1px rgba(245,158,11,0), 0 12px 50px rgba(245,158,11,0),
-                    inset 0 1px 0 rgba(255,255,255,0.10);
-      }
-      16% {
-        border-color: rgba(245,158,11,0.40);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.18), 0 26px 70px rgba(0,0,0,0.38),
-                    0 0 0 1px rgba(245,158,11,0.22), 0 12px 50px rgba(245,158,11,0.17),
-                    inset 0 1px 0 rgba(255,255,255,0.10);
-      }
-    }
-    @keyframes zaDraw {
-      0%   { stroke-dashoffset: 100; }
-      58%  { stroke-dashoffset: 0; }
-      100% { stroke-dashoffset: 0; }
-    }
-    @keyframes zaHead {
-      0%, 28% { opacity: 0; }
-      60%     { opacity: 1; }
-      100%    { opacity: 1; }
-    }
-    /* brightens as it draws, then settles -- white, not amber, so nothing
-       tints the card interior */
-    @keyframes zaGlow {
-      0%, 100% { stroke: rgba(255,255,255,0.34); }
-      58%      { stroke: rgba(255,255,255,0.74); }
-    }
-    .hero-card-stack.pulsing .za-line { animation: zaDraw 1180ms var(--ease), zaGlow 1180ms var(--ease); }
-    .hero-card-stack.pulsing .za-head { animation: zaHead 1180ms var(--ease), zaGlow 1180ms var(--ease); }
 
 
     /* ============================================================
-       QUOTE FACE — the hero card turns over to a parcel form.
-       Both faces share one grid cell so the stack sizes to the
-       taller and neither reflows the other. A cross-fade, not a 3D
-       rotateY: the card carries backdrop-filter, which re-samples
-       badly mid-rotation and flickers in WebKit.
+       HERO CARD — the parcel rate request form
+       The stack is a single-cell grid: one card, sized by its own
+       content, with the wrapper left in place so the hover lift and
+       the mobile width override still have something to hold.
        ============================================================ */
     .hero-card-stack { display: grid; }
     .hero-card-stack > .hero-card { grid-area: 1 / 1; }
 
-    .reel-face, .quote-face {
-      transition: opacity 420ms var(--ease), transform 420ms var(--ease);
-    }
-    .hero-card-stack[data-face="quote"] .reel-face,
-    .hero-card-stack[data-face="reel"]  .quote-face {
-      opacity: 0; pointer-events: none;
-    }
-    .hero-card-stack[data-face="quote"] .reel-face  { transform: translateY(-10px) scale(0.985); }
-    .hero-card-stack[data-face="reel"]  .quote-face { transform: translateY(10px)  scale(0.985); }
-    /* keep the hidden face out of the tab order and off screen readers
-       without removing it from the grid, which is what holds the height */
-    .hero-card-stack[data-face="quote"] .reel-face  { visibility: hidden; }
-    .hero-card-stack[data-face="reel"]  .quote-face { visibility: hidden; }
-    .hero-card-stack[data-face="reel"]  .reel-face,
-    .hero-card-stack[data-face="quote"] .quote-face { visibility: visible; }
-
-    /* the shared grid cell sizes to the taller face, so the reel gets
-       extra height. Push its footer to the bottom rather than leaving
-       the gap hanging under the note, and give the CTA its own row so
-       it stops competing with the footnote for width. */
     .note-link {
       color: rgba(255,255,255,0.56); text-decoration: underline;
       text-underline-offset: 2px; text-decoration-thickness: 0.5px;
       transition: color 0.25s var(--ease);
     }
     .note-link:hover { color: #fff; }
-    .reel-face { display: flex; flex-direction: column; }
-    .reel-face .card-footer { margin-top: auto; flex-wrap: wrap; }
-    .reel-face .slot { flex: 1 1 auto; display: flex; flex-direction: column; }
-    /* equal-height rows rather than space-between: the divider is the
-       row's own bottom border, so added gaps would leave each line
-       hugging the row above instead of sitting between them */
-    .reel-face .slot-rows { flex: 1 1 auto; display: flex; flex-direction: column; }
-    .reel-face .slot-row  { flex: 1 1 0; }
-    .reel-face .card-footer-note { flex: 1 1 100%; }
-    .face-cta {
-      display: inline-flex; align-items: center; gap: 7px;
-      margin-top: 14px; padding: 0; border: 0; background: none;
-      font-family: var(--font-body); font-size: 13px; font-weight: 500;
-      color: var(--amber-light); cursor: pointer;
-      transition: gap 0.3s var(--ease), color 0.3s var(--ease);
-    }
-    .face-cta:hover { gap: 11px; color: #fff; }
-    .face-cta svg { width: 15px; height: 9px; overflow: visible; }
-    .face-cta svg path { stroke: currentColor; stroke-width: 1.6;
-                         stroke-linecap: round; stroke-linejoin: round; fill: none; }
 
-    .qf-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
     .qf-title { font-family: var(--font-display); font-size: 23px; color: #fff; letter-spacing: -0.01em; }
-    .qf-back {
-      padding: 0; border: 0; background: none; cursor: pointer;
-      font-family: var(--font-body); font-size: 12px;
-      color: rgba(255,255,255,0.42); transition: color 0.3s var(--ease);
-    }
-    .qf-back:hover { color: #fff; }
     .qf-sub { margin-top: 4px; font-size: 12px; line-height: 1.45; color: rgba(255,255,255,0.42); }
 
     .qf-grid { margin-top: 15px; display: flex; flex-direction: column; gap: 10px; }
@@ -2414,9 +2147,6 @@
     .qf-note { margin-top: 8px; font-size: 11px; line-height: 1.45; color: rgba(255,255,255,0.3); }
     .qf-err { margin-top: 9px; font-size: 12px; color: #FCA5A5; min-height: 1em; }
 
-    @media (prefers-reduced-motion: reduce) {
-      .reel-face, .quote-face { transition: none; }
-    }
 
 
     /* ---- lead capture modal ---------------------------------- */
@@ -2469,16 +2199,6 @@
       .lead-veil, .lead-box { transition: none; }
     }
 
-    .hero-card-stack.pulsing            { animation: cardPulse 1520ms var(--ease); }
-    .hero-card-stack.pulsing .hero-card { animation: cardRing  1520ms var(--ease); }
-
-    @media (prefers-reduced-motion: reduce) {
-      .hero-card-stack.pulsing,
-      .hero-card-stack.pulsing .hero-card,
-      .hero-card-stack.pulsing .za-line,
-      .hero-card-stack.pulsing .za-head { animation: none; }
-      .slot-zone { transition: none; }
-    }
 
     /* ============================================================
        MOBILE — hero card
@@ -2493,7 +2213,6 @@
       .qf-in, .qf-seg button { min-height: 46px; }
       .qf-seg button { padding-left: 16px; padding-right: 16px; }
       .qf-submit, .lead-actions .qf-submit { min-height: 48px; }
-      .face-cta, .qf-back { min-height: 46px; display: inline-flex; align-items: center; }
       .footer-link, .lead-cancel { min-height: 46px; display: inline-flex; align-items: center; }
 
       .hero-card-stack { max-width: 100%; margin: 0 auto; }
@@ -2502,17 +2221,6 @@
       .rp-eyebrow { font-size: 9.5px; letter-spacing: 0.08em; gap: 7px; }
       .rp-eyebrow::before { width: 16px; }
 
-      .slot-measure { --wfs: clamp(34px, 11vw, 44px); }
-      .slot-svc  { font-size: 12.5px; }
-      .slot-chip { display: none; }      /* the amber bar already marks the winner */
-      /* font size only -- the cell/window geometry stays at the desktop
-         40/84, because the resting transform in CSS and the CELL/WIN
-         constants in the reel script are both pinned to those numbers.
-         Changing the boxes here puts every landing 4px out. */
-      .slot-rate { min-width: 92px; }
-      .reel-cell { font-size: 23px; }
-      .reel-face .slot-row { min-height: 52px; }
-      .card-footer-note { font-size: 10.5px; }
 
       .qf-title { font-size: 21px; }
       .qf-sub   { font-size: 11.5px; }
@@ -2670,39 +2378,9 @@
 
       <div class="hero-visual">
         <div class="hero-card-stack">
-          <div class="hero-card hero-card-main reel-face">
-            <div class="rp-eyebrow">Cactus rates &middot; illustrative estimate</div>
-
-            <div class="slot" id="rateSlot">
-              <div class="slot-head">
-                <div class="slot-measure">
-                <div class="slot-weight" id="slotWeight"><span class="sw-strip"><span class="sw-cell">8<i>oz</i></span></span></div>
-                <span class="slot-zone"><svg class="zone-arrow" viewBox="0 0 24 10" fill="none" aria-hidden="true"><path class="za-line" pathLength="100" d="M1.4 5H17.2"/><path class="za-head" d="M13.5 1.5 17.6 5 13.5 8.5"/></svg><i>Zone 4</i></span>
-              </div>
-                <div class="slot-dots" id="slotDots"><i class="on"></i><i></i><i></i></div>
-              </div>
-
-              <div class="slot-rows">
-                <div class="slot-row"><span class="slot-svc">Regional Economy</span><span class="slot-chip" aria-hidden="true">lowest</span><span class="slot-rate"><span class="reel-strip"><span class="reel-cell"><i>$</i>3.65</span></span></span></div>
-                <div class="slot-row"><span class="slot-svc">National Economy</span><span class="slot-chip" aria-hidden="true">lowest</span><span class="slot-rate"><span class="reel-strip"><span class="reel-cell"><i>$</i>4.65</span></span></span></div>
-                <div class="slot-row"><span class="slot-svc">Regional Ground</span><span class="slot-chip" aria-hidden="true">lowest</span><span class="slot-rate"><span class="reel-strip"><span class="reel-cell"><i>$</i>4.80</span></span></span></div>
-                <div class="slot-row"><span class="slot-svc">National Ground</span><span class="slot-chip" aria-hidden="true">lowest</span><span class="slot-rate"><span class="reel-strip"><span class="reel-cell"><i>$</i>7.90</span></span></span></div>
-              </div>
-            </div>
-
-            <div class="card-footer">
-              <div class="card-footer-note">Illustrative estimate &mdash; base transportation only, before fuel, delivery-area, residential and other accessorial charges when applicable. Not a quote or an offer, and your actual rate may be higher or lower. Rates vary by lane, volume, packaging and carrier mix. <a class="note-link" href="/terms.html">Coverage and rating details</a>.</div>
-              <button type="button" class="face-cta" id="toQuote">
-                Price my parcel
-                <svg viewBox="0 0 15 9" aria-hidden="true"><path d="M0.8 4.5H13M9.6 1.1 13 4.5 9.6 7.9"/></svg>
-              </button>
-            </div>
-        </div>
-            <div class="hero-card quote-face" id="quoteFace">
-              <div class="qf-head">
-                <div class="qf-title">Price my parcel</div>
-                <button type="button" class="qf-back" id="toReel">&larr; Back</button>
-              </div>
+            <div class="hero-card hero-card-main" id="quoteFace">
+              <div class="rp-eyebrow">Parcel rate request</div>
+              <div class="qf-title">Price my parcel</div>
               <div class="qf-sub">Tell us the parcel and we&rsquo;ll bring your rates to a short call.</div>
 
               <form class="qf-grid" id="quoteForm" novalidate>
@@ -2765,7 +2443,8 @@
                 <button type="submit" class="qf-submit" id="qfSubmit">Request rate</button>
                 <div class="qf-err" id="qfErr" role="alert"></div>
                 <div class="qf-note">No rates are published here. We review what you&rsquo;re eligible for &mdash;
-                  based on lane, volume and tech stack &mdash; on the call.</div>
+                  based on lane, volume and tech stack &mdash; on the call.
+                  <a class="note-link" href="/terms.html">Coverage and rating details</a>.</div>
               </form>
             </div>
       </div>
@@ -3321,172 +3000,6 @@
       spyTargets.forEach(s => spy.observe(s))
     }
 
-    // Hero rate reel. Illustrative estimates, deliberately NOT a
-    // uniform transform of any rate card: each service carries its own
-    // markup and the result is rounded, so no single divisor recovers a
-    // cost from these. Keep it that way. This file is published to a
-    // public repo, so nothing here records cost basis, margin, or which
-    // carrier backs which service, and nothing should be added that
-    // does -- published figures plus a stated margin would disclose the
-    // buy rate by division.
-    // Some services price from 1 lb, so a sub-pound figure is that
-    // 1 lb break, which is what such a parcel actually bills at.
-    const SLOT = [
-      { w: '8 oz',  rates: [3.65,  4.65, 4.80, 7.90] },
-      { w: '2 lb',  rates: [3.90,  5.05, 5.20, 7.90] },
-      { w: '15 lb', rates: [8.40, 11.15, 6.35, 7.90] }
-    ]
-    const slotEl = document.getElementById('rateSlot')
-    if (slotEl) {
-      const CELL = 40, WIN = 84, PAD = (WIN - CELL) / 2
-      const SPIN = 1150, STAGGER = 135, HOLD = 2300
-      const BLANK = '<span class="reel-cell"></span>'
-      const wEl  = document.getElementById('slotWeight')
-      const dots = [...document.querySelectorAll('#slotDots i')]
-      const rows = [...slotEl.querySelectorAll('.slot-row')]
-      const still = matchMedia('(prefers-reduced-motion: reduce)').matches
-      const stack = slotEl.closest('.hero-card-stack')
-      // drop the class once the animation is done, so .pulsing always
-      // means "pulsing right now" rather than "has pulsed at least once"
-      if (stack) stack.addEventListener('animationend', e => {
-        if (e.target === stack) stack.classList.remove('pulsing')
-      })
-      const cell = v => '<span class="reel-cell"><i>$</i>' + v.toFixed(2) + '</span>'
-      let step = 0
-
-      const DASH = '<span class="reel-cell">&mdash;</span>'
-      // the figure settles in the MIDDLE of the window, not at its top,
-      // and carries a blank cell either side so the masked edges hold
-      // nothing at rest
-      const seat = strip => {
-        strip.style.transition = 'none'
-        strip.style.transform = 'translateY(' + PAD + 'px)'
-      }
-
-      const spinRow = (row, target, delay) => {
-        const strip = row.querySelector('.reel-strip')
-        if (target === null) {
-          row.classList.remove('rolling')
-          row.classList.add('na')
-          strip.innerHTML = DASH
-          seat(strip)
-          return
-        }
-        row.classList.remove('na')
-        if (still) { strip.innerHTML = cell(target); seat(strip); return }
-
-        const cells = []
-        for (let i = 0; i < 5; i++) cells.push(cell(3 + Math.random() * 8))
-        cells.push(BLANK, cell(target), BLANK)
-        const idx = cells.length - 2
-        strip.innerHTML = cells.join('')
-        seat(strip)
-        void strip.offsetHeight                       // commit the reset
-        strip.style.transition =
-          'transform ' + SPIN + 'ms cubic-bezier(0.16, 1, 0.3, 1) ' + delay + 'ms'
-        strip.style.transform = 'translateY(-' + (idx * CELL - PAD) + 'px)'
-        // the blur lifts well before the curve stops, so the figure
-        // drifts back into focus rather than snapping
-        row.classList.add('rolling')
-        setTimeout(() => row.classList.remove('rolling'), delay + SPIN * 0.45)
-      }
-
-      // the weight rides the same easing as the rates and lands a
-      // beat ahead of them, so it reads as the question and the rates
-      // as the answer rather than four things moving at once
-      const WPOOL = ['2 oz','6 oz','9 oz','14 oz','1 lb','3 lb','5 lb',
-                     '9 lb','11 lb', '18 lb','22 lb']
-      const wCell = w => {
-        const [n, u] = w.split(' ')
-        return '<span class="sw-cell">' + n + '<i>' + u + '</i></span>'
-      }
-      const wStrip = wEl.querySelector('.sw-strip')
-      const measure = slotEl.querySelector('.slot-measure')
-      // the window is sized to the widest cell in the strip; report how much
-      // of it the LANDING cell leaves empty so the zone can slide over it
-      const setZoneShift = target => {
-        if (!measure || !target) return
-        // measure to the UNIT's rendered right edge, not the cell's
-        // max-content box: fractional glyph advances round differently per
-        // string, which left the gap drifting a couple of px between weights
-        const ref = target.querySelector('i') || target
-        const slack = wStrip.getBoundingClientRect().right
-                    - ref.getBoundingClientRect().right
-        measure.style.setProperty('--zone-shift', Math.max(0, slack).toFixed(1) + 'px')
-      }
-      // geometry in em, not pixels: the cell is 1.12em tall inside a
-      // 2.352em window whatever the clamped font size resolves to, so
-      // nothing here has to measure the DOM or wait for a webfont
-      const W_CELL = 1.12, W_PAD = 0.616
-      const wAt = i =>
-        'translateY(calc(' + W_PAD + 'em - ' + (i * W_CELL).toFixed(3) + 'em))'
-      const wSeat = () => {
-        wStrip.style.transition = 'none'
-        wStrip.style.transform = wAt(0)
-      }
-
-      const spinWeight = w => {
-        if (still) { wStrip.innerHTML = wCell(w); wSeat(); setZoneShift(wStrip.children[0]); return }
-        const cells = []
-        for (let i = 0; i < 4; i++)
-          cells.push(wCell(WPOOL[Math.floor(Math.random() * WPOOL.length)]))
-        cells.push('<span class="sw-cell"></span>', wCell(w),
-                   '<span class="sw-cell"></span>')
-        const idx = cells.length - 2
-        wStrip.innerHTML = cells.join('')
-        wSeat()
-        setZoneShift(wStrip.children[idx])     // glides while the digits spin
-        void wStrip.offsetHeight
-        wStrip.style.transition = 'transform ' + (SPIN - 150) + 'ms cubic-bezier(0.16, 1, 0.3, 1)'
-        wStrip.style.transform = wAt(idx)
-        wEl.classList.add('rolling')
-        setTimeout(() => wEl.classList.remove('rolling'), (SPIN - 150) * 0.45)
-      }
-
-      const run = () => {
-        if (document.hidden) { setTimeout(run, 1000); return }
-        // idle while the card is turned over to the form
-        if (stack && stack.dataset.face === 'quote') { setTimeout(run, 700); return }
-        const frame = SLOT[step % SLOT.length]
-        if (stack && !still) {
-          stack.classList.remove('pulsing')
-          void stack.offsetWidth                    // restart the animation
-          stack.classList.add('pulsing')
-        }
-        spinWeight(frame.w)
-        dots.forEach((d, i) => d.classList.toggle('on', i === step % SLOT.length))
-        rows.forEach(r => r.classList.remove('won'))
-        rows.forEach((r, i) => spinRow(r, frame.rates[i], i * STAGGER))
-
-        const settled = still ? 0 : SPIN + (rows.length - 1) * STAGGER + 120
-        setTimeout(() => {
-          const live = frame.rates.filter(v => v !== null)
-          const lo = Math.min(...live)
-          rows.forEach((r, i) => r.classList.toggle('won', frame.rates[i] === lo))
-        }, settled)
-
-        step++
-        setTimeout(run, settled + HOLD)
-      }
-      // the first roll waits on two things: the webfonts having swapped
-      // in, so the opening spin never fights a reflow, and the panel
-      // having finished arriving, so the figures aren't moving while the
-      // card still is. A hard cap means a blocked font request or a
-      // cancelled animation can never leave the panel sitting still.
-      let began = false, gates = 2
-      const begin = () => {
-        if (!began && --gates <= 0) { began = true; setTimeout(run, 260) }
-      }
-      if (document.fonts && document.fonts.status !== 'loaded')
-        document.fonts.ready.then(begin, begin)
-      else begin()
-
-      const entry = slotEl.getAnimations ? slotEl.getAnimations() : []
-      if (entry.length) Promise.all(entry.map(a => a.finished)).then(begin, begin)
-      else begin()
-
-      setTimeout(() => { gates = 1; begin() }, 1600)
-    }
 
     // Scroll-triggered fade-up animations
     const observer = new IntersectionObserver((entries) => {
@@ -3545,31 +3058,11 @@
     })
 
     // ---- parcel pricing request --------------------------------
-    // The card turns over to a form; the form opens a lead capture.
-    // No rate is computed or shown anywhere on this page.
+    // The form is the hero card; submitting it opens a lead capture.
+    // No rate is published, computed or shown anywhere on this page.
     ;(() => {
-      const stack = document.querySelector('.hero-card-stack')
       const qForm = document.getElementById('quoteForm')
-      if (!stack || !qForm) return
-
-      const face = v => {
-        stack.dataset.face = v
-        // nothing in the hidden face should be reachable by keyboard
-        const hide = v === 'reel' ? '#quoteFace' : '.reel-face'
-        const show = v === 'reel' ? '.reel-face' : '#quoteFace'
-        stack.querySelector(hide).setAttribute('inert', '')
-        stack.querySelector(show).removeAttribute('inert')
-      }
-      face('reel')
-
-      document.getElementById('toQuote').addEventListener('click', () => {
-        face('quote')
-        setTimeout(() => document.getElementById('qfWeight').focus(), 430)
-      })
-      document.getElementById('toReel').addEventListener('click', () => {
-        face('reel')
-        setTimeout(() => document.getElementById('toQuote').focus(), 430)
-      })
+      if (!qForm) return
 
       // destination: ZIPs or zone
       const segZips = document.getElementById('segZips')
